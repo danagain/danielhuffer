@@ -1,0 +1,124 @@
+.landing-section {
+    /* background-image: url('../img/design.jpg'); */
+    height: 100vh;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
+    background-color: white;
+}
+
+canvas {
+    background-color:black;
+    width:100%;
+    height:100%;
+}
+
+
+a {
+    font-weight: normal;
+    letter-spacing: 3px;
+    color: white !important;
+    text-decoration: none;
+}
+a:hover {
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #A4A9B7!important;
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+    color: inherit;
+}
+nav {
+    position: fixed;
+    top: 0px;
+    height: 100px;
+    width: 100%;
+    transition: height 0.45s;
+    transition: background-color 0.45s;
+    transition-timing-function: ease-in;
+    background-color: #7F879B;
+}
+
+#dropdown-menu {
+    height:auto;
+    max-height: 0px;
+    min-width: max-content;
+    visibility: hidden;
+    transition: max-height 0.85s!important;
+    transition-timing-function: ease-in!important;
+}
+
+#dropdown-menu a {
+    transition: height 0.0001s;
+    transition: font-size 0.0001s;
+    transition-timing-function: ease-in;
+    transition-delay: 0.65s;
+    height:inherit; 
+    font-size:0px; 
+    visibility: hidden;
+}
+
+.dropdown-item {
+    width:369px;
+}
+
+#navbar {
+    transition: height 0.45s, background-color 0.45s;
+    transition-timing-function: ease-in;
+}
+
+ #major-projects {
+    transition: height 0.45s;
+    transition-timing-function: ease-in;
+}
+
+#major-projects a {
+    transition: height 0.0001s;
+    transition: font-size 0.0001s;
+    transition-timing-function: ease-in;
+    transition-delay: 0.45s;
+    height:inherit; 
+    font-size:0px; 
+    visibility: hidden;
+}
+
+
+.navbar-fixed-top {
+    position: fixed !important;
+    top: 0;
+    border-width: 0 0 1px;
+    border-bottom-width: 1px;
+}
+
+ #dropdown-menu {
+    background-color: #7F879B;
+}
+
+ul {
+    background-color: #7F879B;
+}
+
+li a {
+    margin-left:16px;
+    margin-left:1rem;
+}
+
+#dropdown-menu a {
+    margin:0px;
+}
+
+#navbar-ul {
+    transition: background-color 0.45s;
+    transition-timing-function: ease-in; 
+}
+
+#dropdown-menu  {
+    transition: background-color 0.45s;
+    transition-timing-function: ease-in; 
+}

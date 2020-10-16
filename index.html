@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script src="https://kit.fontawesome.com/f0bebbace8.js" crossorigin="anonymous"></script>
+    <script src="./assets/js/script.js"></script>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+
+    <title>Daniel Huffer</title>
+</head>
+
+<body>
+
+
+
+    <nav class="navbar  navbar-fixed-top navbar-expand-lg navbar-dark" id="navbar">
+        <div class="container h-100">
+            <div class="d-flex align-items-center">
+                <div class="mr-3 pt-1">
+                    <i class="fab fa-angrycreative fa-2x"></i>
+                </div>
+                <div>
+                    <a class="navbar-brand" href="#" style="letter-spacing: 2px;"> DANIEL <b>HUFFER</b> </a>
+                </div>
+
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto" id="navbar-ul">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">ABOUT</a>
+                    </li>
+                    <li class="nav-item active dropdown show"  onmouseover="displayMainDropDown()" onmouseout="hideMainDropDown()">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="" aria-haspopup="" aria-expanded="false">
+                            BLOG
+                        </a>
+                        <div class="dropdown-menu show" aria-labelledby="navbarDropdown" id="dropdown-menu" 
+                        onmouseover="displayMainDropDown()" onmouseout="hideMainDropDown()" style="margin-top:-0.05px;">
+                            <a class="dropdown-item" href="#">DESIGN EXPLORATION</a>
+                            <a class="dropdown-item" href="#">PARTICIPATION & JOURNALING</a>
+                            <a class="dropdown-item dropdown-toggle" href="#" onmouseover="displayMajorProjects()"
+                                onmouseout="hideMajorProjects()">MAJOR PROJECTS</a>
+                            <div style="height:0px;" id="major-projects" onmouseover="displayMajorProjects()"
+                                onmouseout="hideMajorProjects()">
+                                <a class="dropdown-item" href="#">&emsp;PART A</a>
+                                <a class="dropdown-item" href="#">&emsp;PART B</a>
+                                <a class="dropdown-item" href="#">&emsp;PART C</a>
+                            </div>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+    <section class="landing-section">
+        <canvas id="c"></canvas>
+    </section>
+
+
+
+    <section class="test" style="background-color:red;width: 100%;height: 1000px;">
+
+    </section>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <script>
+       
+
+        window.onscroll = function () {
+            scrollFunction()
+        };
+    </script>
+
+<script>
+    var w = c.width = window.innerWidth,
+		h = c.height = window.innerHeight,
+		ctx = c.getContext( '2d' ),
+    opts = {
+      nodeRadius: 2, // size of nodes
+      numNodes: 400, // max number of nodes in init
+      minND: 20, // min distance between two nodes during init
+      conD: 100
+    },
+    nodes = [];
+
+    // Create a node on the screen
+    function Node(x, y) {
+        this.x = x;
+        this.y = y;
+    };
+
+
+    Node.prototype.drawNode = function() {
+        //console.log("draw");
+        ctx.fillStyle = "#FFFFFF"; 
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, opts.nodeRadius, 0, 2 * Math.PI);
+        ctx.stroke(); 
+        ctx.fill();
+    }
+
+    function isNodeValid(node, nodes) {
+        var valid = true;
+        for(var c = 0; c < nodes.length; c++) {
+            if (  (nodes[c].x > node.x - opts.minND && nodes[c].x < node.x) || (nodes[c].x < node.x + opts.minND && nodes[c].x > node.x) ) 
+            {
+                valid = false;
+            }
+            if (  (nodes[c].y > node.y - opts.minND && nodes[c].y < node.y) || (nodes[c].y < node.y + opts.minND && nodes[c].y > node.y) ) 
+            {
+                valid = false;
+            }
+
+        }
+        return valid;
+    }
+
+    function isNodeInRangeForCon(node1, node2) {
+        var valid = false;
+
+            if (  ((node2.x > node1.x - opts.conD && node2.x <= node1.x) || (node2.x < node1.x + opts.conD && node2.x >= node1.x)) 
+            && ( (node2.y > node1.y - opts.conD && node2.y < node1.y) || (node2.y < node1.y + opts.conD && node2.y > node1.y) )  ) 
+            {
+                valid = true;
+            }
+
+        return valid;
+    }
+
+    // init all the nodes on the screen
+    function initNodes() {
+        for (var i = 0; i < opts.numNodes; i++) {
+            var nodex = Math.floor((Math.random() * w) + 1);
+            var nodey = Math.floor((Math.random() * h) + 1);
+            var node = new Node(nodex, nodey);
+            while(!isNodeValid(node, nodes)) {
+                var nodex = Math.floor((Math.random() * w) + 1);
+                var nodey = Math.floor((Math.random() * h) + 1);
+                node.x = nodex;
+                node.y = nodey;
+            }
+            nodes.push(node);
+        }
+        
+        for (var k = 0; k < nodes.length; k++) {
+            nodes[k].drawNode();
+        }
+    }
+
+    function drawConnection(node1, node2) {
+        ctx.beginPath();
+        ctx.moveTo(node1.x, node1.y);
+        ctx.lineTo(node2.x, node2.y);
+        ctx.strokeStyle = "#FFFFFF"; 
+        ctx.stroke();
+    }
+
+    function connectNodes() {
+        for (var i = 0; i < opts.numNodes; i++) {
+            for (var k = 0; k < opts.numNodes; k++) {
+                if (isNodeInRangeForCon(nodes[i], nodes[k])) {
+                    drawConnection(nodes[i], nodes[k]);
+                }
+            
+            }
+        }
+    }
+
+    $(function() {
+        console.log( "ready!" );
+        initNodes();
+        connectNodes();
+    });
+
+
+
+    </script>
+</body>
+
+</html>
