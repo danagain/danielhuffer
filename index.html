@@ -126,7 +126,11 @@
 
 
     Node.prototype.drawNode = function() {
-        ctx.fillStyle = opts.nodeColor; 
+        if ( Math.random() > 0.2) {
+            ctx.fillStyle = "#FFFFFF"; 
+        }else {
+            ctx.fillStyle = "#5DFF01";
+        }
         ctx.beginPath();
         ctx.arc(this.x, this.y, opts.nodeRadius, 0, 2 * Math.PI);
         ctx.stroke(); 
@@ -207,7 +211,12 @@
         ctx.moveTo(node1.x, node1.y);
         ctx.lineTo(node2.x, node2.y);
         ctx.lineWidth = opts.connectionWidth;
-        ctx.strokeStyle = opts.connectionColor; 
+        if ( Math.random() > 0.2) {
+            ctx.strokeStyle = "#FFFFFF"; 
+        }else {
+            ctx.strokeStyle = "#5DFF01";
+        }
+        // ctx.strokeStyle = opts.connectionColor; 
         ctx.stroke();
     }
 
