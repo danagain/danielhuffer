@@ -104,27 +104,45 @@
 		h = c.height = window.innerHeight,
 		ctx = c.getContext( '2d' ),
     opts = {
-      nodeRadius: 2, // size of nodes
-      numNodes: 400, // max number of nodes in init
+      nodeRadius: 4, // size of nodes
+      numNodes: 600, // max number of nodes in init
       minND: 20, // min distance between two nodes during init
-      conD: 100
+      conD: 85,
+      dx: 1,
+      dy: 1
     },
     nodes = [];
 
     // Create a node on the screen
-    function Node(x, y) {
+    function Node(x, y, dx, dy) {
         this.x = x;
         this.y = y;
+        this.dx = dx;
+        this.dy = dy;
     };
 
 
     Node.prototype.drawNode = function() {
-        //console.log("draw");
         ctx.fillStyle = "#FFFFFF"; 
         ctx.beginPath();
         ctx.arc(this.x, this.y, opts.nodeRadius, 0, 2 * Math.PI);
         ctx.stroke(); 
         ctx.fill();
+    }
+
+    Node.prototype.updateNodePosition = function() {
+        var a = document.getElementById('navbar');
+        if(this.x + opts.nodeRadius > w || this.x - opts.nodeRadius < 0) {
+            this.dx = -this.dx;
+            //console.log("Heading outside in x");
+        }
+       // console.log(`y = ${this.y} .. h = ${h}`);
+        if(this.y + opts.nodeRadius > h || this.y - opts.nodeRadius < a.offsetHeight) {
+            this.dy = -this.dy;
+            //console.log("Heading outside in y");
+        }
+        this.x += this.dx;
+        this.y += this.dy;
     }
 
     function isNodeValid(node, nodes) {
@@ -147,7 +165,7 @@
         var valid = false;
 
             if (  ((node2.x > node1.x - opts.conD && node2.x <= node1.x) || (node2.x < node1.x + opts.conD && node2.x >= node1.x)) 
-            && ( (node2.y > node1.y - opts.conD && node2.y < node1.y) || (node2.y < node1.y + opts.conD && node2.y > node1.y) )  ) 
+            && ( (node2.y > node1.y - opts.conD && node2.y <= node1.y) || (node2.y < node1.y + opts.conD && node2.y >= node1.y) )  ) 
             {
                 valid = true;
             }
@@ -157,10 +175,22 @@
 
     // init all the nodes on the screen
     function initNodes() {
+        console.log(`height: ${h} width: ${w}`);
         for (var i = 0; i < opts.numNodes; i++) {
             var nodex = Math.floor((Math.random() * w) + 1);
             var nodey = Math.floor((Math.random() * h) + 1);
-            var node = new Node(nodex, nodey);
+            var directionx = Math.random();
+            var directiony = Math.random();
+            //console.log(`directiony = ${directiony}`);
+            //var node =  new Node(nodex, nodey, opts.dx, opts.dy);
+
+            var node =  new Node(nodex, nodey, Math.floor((Math.random() * 1) + 2) / 4, Math.floor((Math.random() * 0.1) + 2)/ 4);
+            if (directionx >= 0.5) {
+                node.dx = -node.dx;
+            }
+            if (directiony >= 0.5) {
+                node.dy = -node.dy;
+            }
             while(!isNodeValid(node, nodes)) {
                 var nodex = Math.floor((Math.random() * w) + 1);
                 var nodey = Math.floor((Math.random() * h) + 1);
@@ -179,7 +209,7 @@
         ctx.beginPath();
         ctx.moveTo(node1.x, node1.y);
         ctx.lineTo(node2.x, node2.y);
-        ctx.strokeStyle = "#FFFFFF"; 
+        ctx.strokeStyle = "#D3D3D3"; 
         ctx.stroke();
     }
 
@@ -194,10 +224,21 @@
         }
     }
 
+    function animate() {
+        requestAnimationFrame(animate);
+        ctx.clearRect(0,0,w,h);
+        for (var k = 0; k < nodes.length; k++) {
+            nodes[k].updateNodePosition();
+            nodes[k].drawNode();
+        }
+        connectNodes();
+    }
+
     $(function() {
         console.log( "ready!" );
         initNodes();
         connectNodes();
+        animate();
     });
 
 

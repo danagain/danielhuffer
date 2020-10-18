@@ -1,5 +1,5 @@
 .landing-section {
-    /* background-image: url('../img/design.jpg'); */
+    
     height: 100vh;
     width: 100%;
     background-repeat: no-repeat;
@@ -10,7 +10,10 @@
 }
 
 canvas {
-    background-color:black;
+    /* background-color:black; */
+    background-image: url('../img/bris.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
     width:100%;
     height:100%;
 }
