@@ -104,14 +104,15 @@
 		h = c.height = window.innerHeight,
 		ctx = c.getContext( '2d' ),
     opts = {
-      nodeRadius: 4, // size of nodes
+      nodeRadius: 2, // size of nodes
       numNodes: 600, // max number of nodes in init
       minND: 20, // min distance between two nodes during init
       conD: 85,
       dx: 1,
       dy: 1,
-      nodeColor: "#FFFFFF",
-      connectionColor: "#D3D3D3"
+      nodeColor: "#A9A9A9",
+      connectionColor: "#A9A9A9",
+      connectionWidth: 0.1
     },
     nodes = [];
 
@@ -180,7 +181,7 @@
             var directionx = Math.random();
             var directiony = Math.random();
 
-            var node =  new Node(nodex, nodey, Math.floor((Math.random() * 1) + 2) / 4, Math.floor((Math.random() * 0.1) + 2)/ 4);
+            var node =  new Node(nodex, nodey, Math.floor((Math.random() * 4) + 1) / 4, Math.floor((Math.random() * 4) + 1)/ 4);
             if (directionx >= 0.5) {
                 node.dx = -node.dx;
             }
@@ -205,6 +206,7 @@
         ctx.beginPath();
         ctx.moveTo(node1.x, node1.y);
         ctx.lineTo(node2.x, node2.y);
+        ctx.lineWidth = opts.connectionWidth;
         ctx.strokeStyle = opts.connectionColor; 
         ctx.stroke();
     }
@@ -231,7 +233,6 @@
     }
 
     $(function() {
-        console.log( "ready!" );
         initNodes();
         connectNodes();
         animate();
