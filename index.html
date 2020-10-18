@@ -109,7 +109,9 @@
       minND: 20, // min distance between two nodes during init
       conD: 85,
       dx: 1,
-      dy: 1
+      dy: 1,
+      nodeColor: "#FFFFFF",
+      connectionColor: "#D3D3D3"
     },
     nodes = [];
 
@@ -123,7 +125,7 @@
 
 
     Node.prototype.drawNode = function() {
-        ctx.fillStyle = "#FFFFFF"; 
+        ctx.fillStyle = opts.nodeColor; 
         ctx.beginPath();
         ctx.arc(this.x, this.y, opts.nodeRadius, 0, 2 * Math.PI);
         ctx.stroke(); 
@@ -134,12 +136,9 @@
         var a = document.getElementById('navbar');
         if(this.x + opts.nodeRadius > w || this.x - opts.nodeRadius < 0) {
             this.dx = -this.dx;
-            //console.log("Heading outside in x");
         }
-       // console.log(`y = ${this.y} .. h = ${h}`);
         if(this.y + opts.nodeRadius > h || this.y - opts.nodeRadius < a.offsetHeight) {
             this.dy = -this.dy;
-            //console.log("Heading outside in y");
         }
         this.x += this.dx;
         this.y += this.dy;
@@ -175,14 +174,11 @@
 
     // init all the nodes on the screen
     function initNodes() {
-        console.log(`height: ${h} width: ${w}`);
         for (var i = 0; i < opts.numNodes; i++) {
             var nodex = Math.floor((Math.random() * w) + 1);
             var nodey = Math.floor((Math.random() * h) + 1);
             var directionx = Math.random();
             var directiony = Math.random();
-            //console.log(`directiony = ${directiony}`);
-            //var node =  new Node(nodex, nodey, opts.dx, opts.dy);
 
             var node =  new Node(nodex, nodey, Math.floor((Math.random() * 1) + 2) / 4, Math.floor((Math.random() * 0.1) + 2)/ 4);
             if (directionx >= 0.5) {
@@ -209,7 +205,7 @@
         ctx.beginPath();
         ctx.moveTo(node1.x, node1.y);
         ctx.lineTo(node2.x, node2.y);
-        ctx.strokeStyle = "#D3D3D3"; 
+        ctx.strokeStyle = opts.connectionColor; 
         ctx.stroke();
     }
 
